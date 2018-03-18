@@ -46,7 +46,6 @@ int main() {
                 }
             }   
         }
-
         aux = distance[0];
         for (int i = 0; i < distance.size(); ++i) {
             if (distance[i] < aux)
