@@ -18,6 +18,7 @@ int main() {
             cout << "<\n";
         else 
             cout << "=\n";
-    }  
+    }
+        
     return 0;
 }

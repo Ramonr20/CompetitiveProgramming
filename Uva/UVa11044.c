@@ -6,6 +6,7 @@ int main() {
 
     int t, a, b, i;
     scanf("%d", &t);
+
     int ans[t][2];
 
     for (i = 0; i < t; ++i) {

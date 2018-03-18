@@ -3,6 +3,7 @@
 using namespace std;
 
 int main() {
+
     int n,cont = 1, aux = 0;
     string s;
     vector<int> distance, ans;

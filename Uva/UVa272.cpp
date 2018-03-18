@@ -31,6 +31,7 @@ int main() {
             }
         }
         ans.push_back(s);
+
     }
 
     for (int i = 0; i < ans.size(); ++i)

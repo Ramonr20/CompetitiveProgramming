@@ -11,6 +11,7 @@ int main() {
     int init=1, n1=1, n2=1, n3=1, degrees;
     vector<int> ans;
     
+
     while (init || n1 || n2 || n3) {
         cin >> init >> n1 >> n2 >> n3;
         if (!(init || n1 || n2 || n3))
