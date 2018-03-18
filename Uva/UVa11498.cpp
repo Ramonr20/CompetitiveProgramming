@@ -16,5 +16,6 @@ int main() {
             else cout << "SE\n"; 
         }
     }
+    
     return 0;
 }
