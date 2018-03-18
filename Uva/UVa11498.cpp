@@ -12,7 +12,7 @@ int main() {
             if (X == N || Y == M) cout << "divisa\n";
             else if (X > N && Y > M) cout << "NE\n";
             else if (X < N && Y > M) cout << "NO\n";
-            else if(X < N && Y < M) cout << "SO\n";
+            else if (X < N && Y < M) cout << "SO\n";
             else cout << "SE\n"; 
         }
     }

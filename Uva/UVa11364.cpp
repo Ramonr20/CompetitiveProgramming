@@ -24,6 +24,5 @@ int main() {
         cout << sum * 2 << "\n";
     }
 
-
     return 0;
 }
