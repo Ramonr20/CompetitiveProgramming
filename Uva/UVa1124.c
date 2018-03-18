@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 int main() {
-
     char s;
 
     while ((s=getchar()) != EOF) 
