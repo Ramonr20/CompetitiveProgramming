@@ -1,63 +1,70 @@
 #include <bits/stdc++.h>
 
-#define MAXN 100000
-
 using namespace std;
-int N, n1;
-vector<int> nums(MAXN);
-vector<int> eq(MAXN);
 
-void copy() {
-    for (int i = 0; i < n1; ++i)
-        eq[i] = nums[i];
+int merge(int arr[], int tmp[], int l, int m, int r) {
+   
+	int i, j, k;
+	int inv_count = 0;
+	i = l;
+	j = m;
+	k = l;
+
+    	while ((i <= m - 1) && (j <= r)) {
+        	if (arr[i] < arr[j]) {
+            		tmp[k++] = arr[i++];
+        	}else {
+            		tmp[k++] = arr[j++];
+			
+			inv_count += (m - i);
+        	}
+    	}	
+    
+   	while (i <= m - 1)
+        	tmp[k++] = arr[i++];
+    	while (j <= r)
+        	tmp[k++] = arr[j++];
+	for (i = l; i <= r; ++i)
+		arr[i] = tmp[i];
+
+        return inv_count;
 }
 
-bool equ() {
-    for (int i = 0; i < n1; ++i)
-        if (eq[i] != nums[i])
-            return false;
-    return true;
+int mergeSort(int arr[], int tmp[], int l, int r) {
+	int m, inv_count = 0;
+
+	if (r > l) {
+		m = (l + r) / 2;
+
+        	inv_count = mergeSort(arr, tmp, l, m);
+        	inv_count += mergeSort(arr, tmp, m+1, r);
+        	inv_count += merge(arr, tmp, l, m+1, r);
+	}
+	return inv_count; 
+}
+
+
+int _mergeSort(int arr[], int array_size) {
+
+	int *temp = new int[array_size];
+	return mergeSort(arr, temp, 0, array_size - 1);
 }
 
 int main() {
-    int i, aux;
-    bool flag;
-    string ans("");
+	int N, aux, convs, i = 0;
+	int *arr;
+	while (scanf("%d", &N), N) {
+		arr = new int[N];
+		aux = N;
+		while (aux--)
+			scanf("%d", &arr[i++]);
+		convs = _mergeSort(arr,N);
+		cout << convs << "\n";
+		if(convs % 2 == 0)
+			cout << "Marcelo\n";
+		else
+			cout << "Carlos\n";
+	}
 
-    while (scanf("%d", &N), N) {
-        i = 0;
-        n1 = N;
-        flag = true;
-        while (N--) {
-            cin >> nums[i];
-            i++;
-        }
-
-        copy();
-        sort(eq.begin(),eq.end());
-        for (i = 0; i < n1*n1; ++i) {
-            for (int j = 0; j < n1 - 1; ++j) {
-                if (nums[j] > nums[j + 1]) {
-                    aux = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = aux;
-                
-                    if (flag) {
-                        ans = "Marcelo";
-                        flag = false;
-                    }else {
-                        ans = "Carlos";
-                        flag = true;
-                    }
-                    break;
-                }
-            }
-            if (equ())
-                break;
-        }
-        cout << ans << "\n";
-    }
-
-
-    return 0;
+	return 0;
 }
