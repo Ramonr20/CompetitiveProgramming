@@ -6,7 +6,6 @@ int main() {
 
     int S, C, masses, i = 1;
     float imbalance, A;
-
     vector<int> M;
     vector<vector<int> > chambers(5,vector<int>(2));
 
