@@ -12,7 +12,14 @@ comb = {
 def readTypes():
     return stdin.readline()
 
-def findLetters(f, m):
+def replace(s):
+    typ = s
+    for ch in ['-','+']:
+        if ch in s:
+            typ = s.replace(ch,'')
+    return typ
+
+def findParentLetters(f, m):
     lettersF = ''
     lettersM = ''
     for l,t in comb.items():
@@ -43,61 +50,47 @@ def searchParent(lettersM, lettersC):
                     possible.append(comb[li])
     return possible
 
-def replace(s):
-    typ = s
-    for ch in ['-','+']:
-        if ch in s:
-            typ = s.replace(ch,'')
-    return typ
+def possiblesUnique(possible, operator):
+    LIST = '{'
+    if len(possible) == 1:
+        return possible[0] + operator
+            
+    for i, t in enumerate(possible):
+        if i == 0:
+            LIST = LIST + t + operator
+        else:
+            LIST = LIST + ', ' + t + operator
+    LIST = LIST + '}'
+    return LIST
+
+def possiblesSeveral(possible):
+    LIST = '{'
+    for i, t in enumerate(possible):
+        if i == 0:
+            LIST = LIST + t + '-'
+            LIST = LIST + ', ' + t + '+'
+        else:
+            LIST = LIST + ', ' + t + '-'
+            LIST = LIST + ', ' + t + '+'
+    LIST = LIST + '}'
+    return LIST
 
 def getPossibleForChild(possible, f, m): 
-    LIST = '{'
-    fl = f[-1]
-    ml = m[-1]
-    if fl == '-' and ml == '-':
-        if len(possible) == 1:
-            return possible[0] + '-'
-            
-        for i, t in enumerate(possible):
-            if i == 0:
-                LIST = LIST + t + '-'
-            else:
-                LIST = LIST + ', ' + t + '-'
-        LIST = LIST + '}'
+    LIST = ''
+    if f[-1] == '-' and f[-1] == '-':
+        LIST = possiblesUnique(possible,'-')
         return LIST
     else:
-        for i, t in enumerate(possible):
-            if i == 0:
-                LIST = LIST + t + '-'
-                LIST = LIST + ', ' + t + '+'
-            else:
-                LIST = LIST + ', ' + t + '-'
-                LIST = LIST + ', ' + t + '+'
-        LIST = LIST + '}'
+        LIST = possiblesSeveral(possible)
         return LIST
 
 def getPossibleForPartents(possible, p, c):
-    LIST = '{'
+    LIST = ''
     if p[-1] == '-' and c[-1] == '+':
-        if len(possible) == 1:
-            return possible[0] + '+'
-        else:
-            for i, t in enumerate(possible):
-                if i == 0:
-                    LIST = LIST + t + '+' 
-                else:
-                    LIST = LIST + ', ' + t + '+'
-            LIST = LIST + '}'
-            return LIST
+        LIST = possiblesUnique(possible,'+')
+        return LIST
     else:
-        for i, t in enumerate(possible):
-            if i == 0:
-                LIST = LIST + t + '-'
-                LIST = LIST + ', ' + t + '+'
-            else:
-                LIST = LIST + ', ' + t + '-'
-                LIST = LIST + ', ' + t + '+'
-        LIST = LIST + '}'
+        LIST = possiblesSeveral(possible)
         return LIST
 
 def main():
@@ -110,8 +103,8 @@ def main():
         lettersC = list()
         LIST = ''
 
-        # F, M, C = readTypes()
         types = readTypes()
+
         if types == '\n':
             continue
         else:
@@ -124,7 +117,7 @@ def main():
                 break
 
             if c == '?':
-                lettersF, lettersM = findLetters(f,m)
+                lettersF, lettersM = findParentLetters(f,m)
                 lettersF = list(set(lettersF.split()))
                 lettersM = list(set(lettersM.split()))
 
@@ -140,31 +133,32 @@ def main():
                                 possible.append(t)    
                 possible = list(set(possible))
                 LIST = getPossibleForChild(possible, F, M)
-                print("Case {}: {} {} {}".format(I,F,M,LIST))
+                print("Case %d: %s %s %s" %(I,F,M,LIST))
 
             if f == '?' or m == '?':
                 lettersC = findChildLetters(c)   
                 if m == '?':
-                    lettersF, lettersM = findLetters(f,'N')
+                    lettersF, lettersM = findParentLetters(f,'N')
                     lettersF = list(set(lettersF.split()))
                     possible = searchParent(lettersF, lettersC)
                     if len(possible) == 0:
-                        print("Case {}: {} IMPOSSIBLE {}".format(I,F,C))
+                        print("Case %d: %s IMPOSSIBLE %s" %(I,F,C))
                     else:                
                         possible = set(possible)
                         LIST = getPossibleForPartents(possible, F, C)
-                        print("Case {}: {} {} {}".format(I,F,LIST,C))
+                        print("Case %d: %s %s %s" %(I,F,LIST,C))
 
                 if f == '?':
-                    lettersF, lettersM = findLetters('N',m)
+                    lettersF, lettersM = findParentLetters('N',m)
                     lettersM = list(set(lettersM.split()))
                     possible = searchParent(lettersM, lettersC)
                     if len(possible) == 0:
-                        print("Case {}: IMPOSSIBLE {} {}".format(I,M,C))
+                        print("Case %d: IMPOSSIBLE %s %s".format(I,M,C))
                     else:
                         possible = set(possible)
                         LIST = getPossibleForPartents(possible, M, C)
-                        print("Case {}: {} {} {}".format(I,LIST,M,C))
+                        print("Case %d: %s %s %s".format(I,LIST,M,C))
             I = I + 1
+            
 if __name__ == '__main__':
     main()

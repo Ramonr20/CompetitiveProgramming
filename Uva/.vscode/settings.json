@@ -18,6 +18,15 @@
         "unordered_map": "cpp",
         "unordered_set": "cpp",
         "vector": "cpp",
-        "iostream": "cpp"
-    }
+        "iostream": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp",
+        "iterator": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "utility": "cpp",
+        "valarray": "cpp"
+    },
+    "python.linting.pylintEnabled": false
 }
