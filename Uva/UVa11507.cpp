@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 int main() {
 
 	int L;
@@ -14,7 +13,7 @@ int main() {
 			cin >> J;
 			if (J == "No")
 				continue;
-			else if (J == "+z") {
+			if (J == "+z") {
 				if (end == "+x") end = "+z";
 				else if (end == "-x") end = "-z";
 				else if (end == "+z") end = "-x";
@@ -33,7 +32,7 @@ int main() {
 
 			} else if (J == "-y") {
 				if (end == "+x") end = "-y";
-				else if (end == "-x") end = "+z";
+				else if (end == "-x") end = "+y";
 				else if (end == "+y") end = "+x";
 				else if (end == "-y") end = "-x";
 			}
