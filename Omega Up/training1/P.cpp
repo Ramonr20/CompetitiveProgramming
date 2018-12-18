@@ -11,7 +11,7 @@ typedef pair<int, double> ii;
 typedef vector<ii> vii;
 typedef vector<vii> vvii;
 typedef queue<int> qi;
-
+typedef vector<int> vi;
 
 vvii trees(MAXN, vii(MAXN));
 int vis[MAXN][MAXN];
@@ -23,6 +23,35 @@ int gr[] = {0, 1, 0, -1};
 
 inline double xinter(int b2, int b1, double m1, double m2) { return (double)(b2 - b1) / (m1 - m2); }
 inline double intersection(int m, double x, double b) { return (double)m * x + b; }
+
+class UnionFind {
+	private: 
+		vi p, rank;
+
+	public:
+		UnionFind(int N) { 
+			rank.assign(N,0);
+			p.assign(N, 0);	
+			for (int i = 0; i < N; ++i) { p[i] = i; } 
+		}
+		int findSet(int i) { return (p[i] == i) ? i : (p[i] = findSet(p[i]));}
+		bool isSameSet(int i, int j) { return findSet(i) == findSet(j); }
+
+		void unionSet(int i, int j) {
+			if (!isSameSet(i, j)) {
+				int x = findSet(i), y = findSet(j);
+				if (rank[x] > rank[y])  p[y] = x; 
+				else {
+					p[x] = y;
+					if (rank[x] == rank[y]) rank[y]++;
+				}
+			}
+		}
+		void disjointSet(int i) {
+			int x = findSet(i);
+			if (x != i) p[i] = i;	
+		}
+};
 
 void bfsForInter(int x, int y) {
 	int topx, topy;
@@ -47,34 +76,35 @@ void bfsForInter(int x, int y) {
 	}
 }
 
-int bfs(int x, int y) {
+map<int, int> lines;
+
+void bfs(int x, int y) {
 	int topx, topy;
 	qi qx, qy;
-	int cont = 1;
-	//memset(vis, 0, sizeof(vis));
-	vis [x][y] = 1; 
-	qx.push(x); qy.push(y);
+	vis[x][y] = 1; qx.push(x); qy.push(y);
+	lines[inter[x][y]]++;
 
 	while (!qx.empty()) {
 		topx = qx.front(); qx.pop();
 		topy = qy.front(); qy.pop();
-		
 		for (int j = 0; j < 2; ++j) {
 			x = topx + gk[j];
 			y = topy + gr[j];
-			//if (!(x < 0 || x >= N) && !(y < 0 || y >= N)) {
-				if (vis[x][y] == 0 && inter[x][y] == inter[topx][topy]) cont++;
-				if (vis[x][y] == 0) {
+			if ((x < 0 || x >= N) || (y < 0 || y >= N)) { 
+				continue;
+			}
+			if (vis[x][y] == 0) {	
+				if (inter[topx][topy] == inter[x][y]) {
 					vis[x][y] = 1;
-					qx.push(x);
-					qy.push(y);
-				}	
-			//}
+					lines[inter[x][y]]++;
+				}
+				qx.push(x);
+				qy.push(y);
+			}
 		}
 	}
-	return cont;
-}
 
+}
 int main() {
 
 	int x, tmp;
@@ -97,12 +127,12 @@ int main() {
 			bfsForInter(i, j);
 		}
 	}
+	memset(vis, 0, sizeof(vis));
+	bfs(0, 0);
+	for (auto i : lines)
+			cout << i.Y << ' ';
+	cout << '\n';
 
-	//memset(vis, 0, sizeof(vis));
-	//ans = bfs(0, 0);
-	
-	//cout << ans << '\n';
-	cout << "Aqui\n"; 	
 	for (int i = 0; i < N; ++i) {
 		for (int j = 0; j < N; ++j) {
 			cout << inter[i][j] << ' ';

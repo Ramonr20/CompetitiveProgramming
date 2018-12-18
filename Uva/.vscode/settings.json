@@ -26,7 +26,8 @@
         "queue": "cpp",
         "stack": "cpp",
         "utility": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "memory": "cpp"
     },
     "python.linting.pylintEnabled": false
 }
