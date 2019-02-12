@@ -24,7 +24,7 @@ void update(int k, int v) {
 }
 
 int main() {
-    IO;
+    IO
     int v, x, y, c = 1;
     string op;
 
