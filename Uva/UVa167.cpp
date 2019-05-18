@@ -63,7 +63,7 @@ int main() {
 
         ans = 0;
         solve(0, 0);
-        //cout << "     " << ans << '\n';
+        cout << "     " << ans << '\n';
     }
 
 
