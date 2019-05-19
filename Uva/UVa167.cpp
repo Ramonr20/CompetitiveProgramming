@@ -50,7 +50,7 @@ void solve(int x, int score) {
 }
 
 int main() {
-    optimize_io
+    // optimize_io
 
     cin >> N;
 
