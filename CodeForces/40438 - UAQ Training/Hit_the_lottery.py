@@ -3,8 +3,8 @@ from sys import stdin
 def readInt():
     return int(stdin.readline())
 
-dlls = [100, 20, 10, 5, 1]
 ans = 0
+dlls = [100, 20, 10, 5, 1]
 
 N = readInt()
 
